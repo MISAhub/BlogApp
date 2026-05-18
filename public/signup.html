@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Sign Up</title>
+</head>
+
+
+<body class="bg-gray-100 min-h-screen font-sans">
+
+    <div class="flex justify-center items-start py-14 px-4">
+        <div class="bg-white rounded-2xl w-full max-w-md p-10">
+
+            <!-- Header -->
+            <div class="mb-8 text-center">
+                <h1 class="text-2xl font-bold text-gray-800">Create your account</h1>
+                <p class="text-sm text-gray-500 mt-1">Fill in the details below to get started</p>
+            </div>
+
+            <form id="form">
+
+                <!-- Full Name -->
+                <div class="mb-4">
+                    <label for="name"
+                        class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Full
+                        Name</label>
+                    <input type="text" id="name" name="name" placeholder="Milind Sawai" required
+                        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:bg-white" />
+                </div>
+
+                <!-- Username -->
+                <div class="mb-4">
+                    <label for="username"
+                        class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Username</label>
+                    <input type="text" id="username" name="username" placeholder="milind.sawai" required
+                        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:bg-white" />
+                </div>
+
+                <!-- Password -->
+                <div class="mb-4">
+                    <label for="password"
+                        class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Password</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required
+                        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:bg-white" />
+                </div>
+
+                <!-- Birthdate -->
+                <div class="mb-8">
+                    <label for="birthdate"
+                        class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Birthdate</label>
+                    <input type="date" id="birthdate" name="birthdate" required
+                        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-blue-500 focus:bg-white" />
+                </div>
+
+                <!-- Submit -->
+                <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-lg py-3 transition-colors">
+                    Create Account
+                </button>
+
+                <!-- Login link -->
+                <p class="text-center text-sm text-gray-500 mt-4">
+                    Already have an account?
+                    <a href="/login" class="text-blue-600 font-medium hover:underline">Log in</a>
+                </p>
+
+            </form>
+        </div>
+    </div>
+
+
+
+    <script>
+
+        // Nav bar component
+
+        fetch('/components/nav.html')
+            .then(response => response.text())
+            .then(data => {
+                const navContainer = document.createElement('div');
+                navContainer.innerHTML = data;
+                document.body.insertBefore(navContainer, document.body.firstChild);
+            })
+            .catch(error => console.error('Error loading navigation:', error));
+
+
+        // form sumbission logic
+
+        const signupForm = document.getElementById('form');
+        const submit = document.querySelector('button[type="submit"]');
+        const scriptURL = "https://script.google.com/macros/s/AKfycbwlAYJ_sySDJ68BsxTbJXeG2xp5VCH0dgnVkkH3hU5uHC7Z56rq9JprtdHjUgI5gmm-/exec";
+
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('name').value,
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+                birthdate: document.getElementById('birthdate').value
+            };
+            addTask(data);
+        });
+
+        function addTask(data) {
+            const formData = {
+                name: data.name,
+                username: data.username,
+                password: data.password,
+                birthdate: data.birthdate
+            };
+
+            if (!formData.name || !formData.username || !formData.password || !formData.birthdate) return;
+
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify(formData)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Account created successfully!');
+                        signupForm.reset();
+                    } else {
+                        alert('Failed');
+                    }
+                });
+        }
+    </script>
+
+</body>
+
+</html>

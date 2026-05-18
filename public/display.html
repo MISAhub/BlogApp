@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Display</title>
+</head>
+
+<body class="min-h-screen flex flex-col items-center justify-center bg-slate-50 font-sans gap-8 px-4">
+
+    <!-- Greeting -->
+    <h1 class="text-3xl font-bold text-slate-700 tracking-tight">
+        Hello, <span id="username-display" class="text-blue-600">User</span>
+    </h1>
+
+    <!-- Cards -->
+    <div class="flex flex-col sm:flex-row gap-4 w-full max-w-lg">
+
+        <!-- Upload Card -->
+        <div
+            class="flex-1 bg-white rounded-2xl shadow-md shadow-slate-200 border border-slate-100 p-6 flex flex-col items-center gap-3">
+            <p class="text-sm font-semibold text-slate-600">Upload a File</p>
+            <label
+                class="cursor-pointer w-full text-center bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-colors">
+                Choose File
+                <input type="file" class="hidden" />
+            </label>
+        </div>
+
+        <!-- Blog Card -->
+        <div
+            class="flex-1 bg-white rounded-2xl shadow-md shadow-slate-200 border border-slate-100 p-6 flex flex-col items-center gap-3">
+            <p class="text-sm font-semibold text-slate-600">Write a Blog</p>
+            <textarea
+                class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 placeholder-slate-400"
+                rows="3"></textarea>
+            <button class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg">
+                Post
+            </button>
+        </div>
+
+    </div>
+
+
+    <script>
+        const userInput = document.getElementById('username-display');
+        const storedData = JSON.parse(localStorage.getItem('taskStore')) || {};
+
+        for (const i in storedData) {
+            if (storedData[i].username) {
+                userInput.textContent = storedData[i].username;
+                break; // Assuming you want to display the first username found
+            }
+        }
+    </script>
+</body>
+
+</html>
