@@ -1,10 +1,11 @@
 const express = require('express');
-const port = process.env.PORT || 3000;
 const path = require('path');
 const app = express();
 
 require('dotenv').config();
 const cookies = require('cookie-parser');
+const { initDB } = require('./db');
+const port = process.env.APP_PORT || process.env.PORT || 3000;
 
 
 // ✅ THIS was missing — serves everything in /public as static files
@@ -49,7 +50,15 @@ app.get('/display', (req, res) => {
     });
 });
 
-app.listen(port, () => console.log(`🚀 http://localhost:${port}`));
+initDB()
+    .then(() => {
+        app.listen(port, () => console.log(`🚀 http://localhost:${port}`));
+    })
+    .catch((err) => {
+        console.error('Failed to initialize database:', err);
+        process.exit(1);
+    });
+
 // const server = http.createServer('/', (req, res) => {
 
 // console.log(req.url);
