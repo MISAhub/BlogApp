@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const authController = require('../controllers/userdatabase');  
+const { signupController } = require('../controllers/userdatabase');  
 
-router.post('/signup', authController.signup);
+router.post('/signup', signupController);
 
 router.get('/signup', (req, res) => {
     res.send('Signup route is reachable');

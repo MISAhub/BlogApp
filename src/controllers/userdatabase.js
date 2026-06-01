@@ -1,7 +1,7 @@
 const user = require('../models/user');
 const bcrypt = require('bcrypt');
 
-exports.signup = async (req, res) => {
+const signupController = async (req, res) => {
     try {
         const { username, password } = req.body;
 
@@ -38,3 +38,5 @@ exports.signup = async (req, res) => {
         });
     }
 };
+
+module.exports = { signupController };

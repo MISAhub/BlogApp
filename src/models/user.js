@@ -1,10 +1,12 @@
 // const pool = require('.db.js').pool;
+
 const { getPool } = require('../../db');
 const createUser = async ({username, password}) => {
     const query = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *';
     const values = [username, password];
     try {
-        const res = await getPool().query(query, values);
+        const pool = getPool();
+        const res = await pool.query(query, values);
         return res.rows[0];
     } catch (err) {
         console.error('Error creating user:', err);

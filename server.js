@@ -22,9 +22,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // app.use('/auth', require('./routes/auth'));
 // app.use('/users', require('./routes/users'));
 
-app.use('/api/auth', require('./src/routes/auth.js'));
-
-
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, "public", "home.html"), (err) => {
@@ -52,6 +49,9 @@ app.get('/display', (req, res) => {
 
 initDB()
     .then(() => {
+        console.log("✅ Database initialized");
+        app.use('/api/auth', require('./src/routes/auth'));
+
         app.listen(port, () => console.log(`🚀 http://localhost:${port}`));
     })
     .catch((err) => {
